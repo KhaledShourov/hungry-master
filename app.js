@@ -20,8 +20,7 @@ function searchMeals(e) {
             resultHeading.innerHTML = `<h2>Search result '${term}':</h2>`
 
             if (data.meals === null) {
-                resultHeading.innerHTML = '<h1>There are no result, Please try again!</h1>'
-           resultHeading.style.color = "red";
+                resultHeading.innerHTML = '<h1 style="color:red">There are no result, Please try again!</h1>'
             }else{
                 mealsElement.innerHTML = data.meals.map(meal =>`
                     <div class = "meal">
