@@ -39,32 +39,13 @@ function searchMeals(e) {
     }
           
 }
-// Fetch on ID
-// function getMealById(mealID){
-//     fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealID}`)
-//     .then(res => res.json())
-//     .then(data => {
-//         const meal = data.meals[0];
-//     })
-// }
-//  function addMealToDOM(meal) {
-//      const ingredients = []
-
-//      for (let i = 1; i <= 20; i++) {
-//          if (meal[`strIngredient ${i}`]) {
-//              ingredients.push(`${meal[`strIngredient${i}`]} -${meal[`strMeasure${i}`]}`)
-//          } else {
-//              break;
-//          }
-//      }
-//  }
 
 //fetch meal by ID
 function getMealById(mealID) {
     fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealID}`)
     .then(res => res.json())
     .then(data => {
-        console.log(data)
+       
         const meal = data.meals[0]
 
         addMealToDOM(meal)
@@ -94,7 +75,6 @@ submit.addEventListener('submit', searchMeals)
 
 mealsElement.addEventListener('click', e =>{
     const mealInfo = e.path.find(item=>{
-      console.log(item)
         if(item.classList){
          return item.classList.contains('meal-info')
         }else{
