@@ -5,7 +5,7 @@ mealsElement = document.getElementById('meals')
 resultHeading = document.getElementById('result-heading')
 singleMealElement = document.getElementById('single-meal')
 
-//Search Meals Function
+//Search Meals Function fetch by Name
 function searchMeals(e) {
     e.preventDefault()
 
@@ -19,7 +19,7 @@ function searchMeals(e) {
             console.log(data)
             resultHeading.innerHTML = `<h2>Search result '${term}':</h2>`
 
-            if (data.meals === null) {
+           if (data.meals === null) {
                 resultHeading.innerHTML = '<h1 style="color:red">There are no result, Please try again!</h1>'
             }else{
                 mealsElement.innerHTML = data.meals.map(meal =>`
@@ -39,6 +39,71 @@ function searchMeals(e) {
     }
           
 }
+// Fetch on ID
+// function getMealById(mealID){
+//     fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealID}`)
+//     .then(res => res.json())
+//     .then(data => {
+//         const meal = data.meals[0];
+//     })
+// }
+//  function addMealToDOM(meal) {
+//      const ingredients = []
+
+//      for (let i = 1; i <= 20; i++) {
+//          if (meal[`strIngredient ${i}`]) {
+//              ingredients.push(`${meal[`strIngredient${i}`]} -${meal[`strMeasure${i}`]}`)
+//          } else {
+//              break;
+//          }
+//      }
+//  }
+
+//fetch meal by ID
+function getMealById(mealID) {
+    fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealID}`)
+    .then(res => res.json())
+    .then(data => {
+        console.log(data)
+        const meal = data.meals[0]
+
+        addMealToDOM(meal)
+    })
+}
+
+//Add meal to DOM
+  function addMealToDOM(meal) {
+           const ingredients = []
+
+           for (let i = 1; i <= 20; i++) {
+               if (meal[`strIngredient ${i}`]) {
+                   ingredients.push(`${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`)
+               } else {
+                   break;
+               }
+           }
+           singleMealElement =`
+           <div class ="single-meal">
+           <h1>${meal.strMeal}</h1>
+           </div>`
+       }
+
 
 //Event Listener
-submit.addEventListener('submit', searchMeals) 
+submit.addEventListener('submit', searchMeals)
+
+mealsElement.addEventListener('click', e =>{
+    const mealInfo = e.path.find(item=>{
+      console.log(item)
+        if(item.classList){
+         return item.classList.contains('meal-info')
+        }else{
+            return false;
+      }
+    })
+ 
+    if(mealInfo){
+        const mealID = mealInfo.getAttribute('data-mealid')
+        getMealById(mealID)
+    }
+})
